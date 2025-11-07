@@ -1,6 +1,6 @@
 'use server';
 
-import { Stuff, Condition } from '@prisma/client';
+import { Stuff, Condition, Contact } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
@@ -31,6 +31,42 @@ export async function addStuff(stuff: { name: string; quantity: number; owner: s
   redirect('/list');
 }
 
+export async function editContact(contact: Contact) {
+  await prisma.contact.update({
+    where: { id: contact.id },
+    data: {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      address: contact.address,
+      description: contact.description,
+      owner: contact.owner,
+      image: contact.image,
+    },
+  });
+  // After updating, redirect to the contacts page
+  redirect('/contacts');
+}
+
+export async function addContact(contact: {
+  firstName: string;
+  lastName: string;
+  address: string;
+  description: string;
+  owner: string;
+  image: string }) {
+  await prisma.contact.create({
+    data: {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      address: contact.address,
+      description: contact.description,
+      owner: contact.owner,
+      image: contact.image,
+    },
+  });
+  // After adding, redirect to the contacts page
+  redirect('/contacts');
+}
 /**
  * Edits an existing stuff in the database.
  * @param stuff, an object with the following properties: id, name, quantity, owner, condition.
