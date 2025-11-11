@@ -13,7 +13,7 @@ const ContactCard = ({ contact, notes }: { contact: Contact, notes: Note[] }) =>
       <Image src={contact.image} width={75} />
       <Card.Title>
         {contact.firstName}
-        nbsp;
+        {' '}
         {contact.lastName}
       </Card.Title>
       <Card.Subtitle>{contact.address}</Card.Subtitle>
